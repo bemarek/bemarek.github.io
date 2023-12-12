@@ -1,0 +1,27 @@
+name: Build and Deploy to GitHub Pages from Asciidoc
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy-site-from-asciidoc:
+    runs-on: ubuntu-latest
+    
+    steps:
+
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      # https://github.com/marketplace/actions/asciidoctor-ghpages
+      # https://github.com/manoelcampos/asciidoctor-ghpages-action
+      # https://github.com/manoelcampos/asciidoctor-ghpages-action/blob/main/.github/workflows/asciidoctor-ghpages.yml
+      - name: asciidoctor-ghpages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: manoelcampos/asciidoctor-ghpages-action@v2
